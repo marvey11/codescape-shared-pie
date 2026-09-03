@@ -8,7 +8,7 @@ from codescape.util.string import shorten_string
 class StringUtiltiesTest(unittest.TestCase):
     """Test class for all string utilities."""
 
-    def test_shorten_string_01(self) -> None:
+    def test_shorten_string_empty_no_marker(self) -> None:
         """
         Tests whether an empty string (that consequently is shorter than the maximum
         length) is treated correctly.
@@ -19,7 +19,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 10)
         self.assertEqual(original, result)
 
-    def test_shorten_string_02(self) -> None:
+    def test_shorten_string_shorter_than_max_length_no_marker(self) -> None:
         """
         Tests whether a string that is shorter than the maximum length is treated
         correctly.
@@ -30,7 +30,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 10)
         self.assertEqual(original, result)
 
-    def test_shorten_string_03(self) -> None:
+    def test_shorten_string_max_length_exactly_no_marker(self) -> None:
         """
         Tests whether a string that is exactly as long as the maximum length is treated
         correctly.
@@ -41,7 +41,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 12)
         self.assertEqual(original, result)
 
-    def test_shorten_string_04(self) -> None:
+    def test_shorten_string_longer_than_max_length_no_marker(self) -> None:
         """
         Tests whether a string that is longer than the maximum length is treated
         correctly.
@@ -53,7 +53,7 @@ class StringUtiltiesTest(unittest.TestCase):
         self.assertEqual(10, len(result))
         self.assertTrue(original.startswith(result))
 
-    def test_shorten_string_05(self) -> None:
+    def test_shorten_string_max_length_zero_no_marker(self) -> None:
         """
         Tests for a boundary case: maximum length is 0 --> should return an empty
         string.
@@ -64,7 +64,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 0)
         self.assertEqual("", result)
 
-    def test_shorten_string_11(self) -> None:
+    def test_shorten_string_empty_with_marker(self) -> None:
         """
         Tests whether an empty string (that consequently is shorter than the maximum
         length) is treated correctly.
@@ -76,7 +76,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 10, "...")
         self.assertEqual(original, result)
 
-    def test_shorten_string_12(self) -> None:
+    def test_shorten_string_shorter_than_max_length(self) -> None:
         """
         Tests whether a string that is shorter than the maximum length is treated
         correctly.
@@ -88,7 +88,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 10, "...")
         self.assertEqual(original, result)
 
-    def test_shorten_string_13(self) -> None:
+    def test_shorten_string_max_length_exactly_with_marker(self) -> None:
         """
         Tests whether a string that is exactly as long as the maximum length is treated
         correctly.
@@ -100,7 +100,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 12, "...")
         self.assertEqual(original, result)
 
-    def test_shorten_string_14(self) -> None:
+    def test_shorten_string_longer_than_max_length_with_marker(self) -> None:
         """
         Tests whether a string that is longer than the maximum length is treated
         correctly.
@@ -113,7 +113,7 @@ class StringUtiltiesTest(unittest.TestCase):
         self.assertTrue(result.endswith("..."))
         self.assertTrue(original.startswith(result[0:7]))
 
-    def test_shorten_string_15(self) -> None:
+    def test_shorten_string_max_length_zero_with_marker(self) -> None:
         """
         Tests for a boundary case: the marker is used, but the maximum length is 0
         --> should still return an empty string.
@@ -122,7 +122,7 @@ class StringUtiltiesTest(unittest.TestCase):
         result = shorten_string(original, 0, "....")
         self.assertEqual("", result)
 
-    def test_shorten_string_91(self) -> None:
+    def test_shorten_string_max_length_negative(self) -> None:
         """Tests for an error case: The maximum length is negative."""
 
         with self.assertRaises(ValueError):

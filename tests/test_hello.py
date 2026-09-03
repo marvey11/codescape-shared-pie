@@ -1,5 +1,5 @@
-from codescape_shared_pie import hello
+from codescape.shared import hello
 
 
-def test_hello():
+def test_hello() -> None:
     assert hello() == "Hello from codescape-shared-pie!"

@@ -12,7 +12,7 @@
     "python.testing.cwd": "${workspaceFolder}",
     "python.testing.pytestArgs": [
         // Auto-discover test directories across all workspace members
-        "rootdir=${workspaceFolder}"
+        "--rootdir=${workspaceFolder}"
     ],
     // --- Formatting & Linting (Python / Ruff) ---
     "[python]": {

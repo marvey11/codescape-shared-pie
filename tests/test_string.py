@@ -1,11 +1,11 @@
 """Tests for the utilities module."""
 
-import unittest
+import pytest
 
 from codescape.util.string import shorten_string
 
 
-class StringUtiltiesTest(unittest.TestCase):
+class TestStringUtilties:
     """Test class for all string utilities."""
 
     def test_shorten_string_empty_no_marker(self) -> None:
@@ -17,7 +17,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = ""
         result = shorten_string(original, 10)
-        self.assertEqual(original, result)
+
+        assert original == result
 
     def test_shorten_string_shorter_than_max_length_no_marker(self) -> None:
         """
@@ -28,7 +29,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "test"
         result = shorten_string(original, 10)
-        self.assertEqual(original, result)
+
+        assert original == result
 
     def test_shorten_string_max_length_exactly_no_marker(self) -> None:
         """
@@ -39,7 +41,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "testtesttest"
         result = shorten_string(original, 12)
-        self.assertEqual(original, result)
+
+        assert original == result
 
     def test_shorten_string_longer_than_max_length_no_marker(self) -> None:
         """
@@ -50,8 +53,9 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "testtesttesttest"
         result = shorten_string(original, 10)
-        self.assertEqual(10, len(result))
-        self.assertTrue(original.startswith(result))
+
+        assert len(result) == 10
+        assert original.startswith(result)
 
     def test_shorten_string_max_length_zero_no_marker(self) -> None:
         """
@@ -62,7 +66,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "test"
         result = shorten_string(original, 0)
-        self.assertEqual("", result)
+
+        assert result == ""
 
     def test_shorten_string_empty_with_marker(self) -> None:
         """
@@ -74,7 +79,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = ""
         result = shorten_string(original, 10, "...")
-        self.assertEqual(original, result)
+
+        assert original == result
 
     def test_shorten_string_shorter_than_max_length(self) -> None:
         """
@@ -86,7 +92,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "test"
         result = shorten_string(original, 10, "...")
-        self.assertEqual(original, result)
+
+        assert original == result
 
     def test_shorten_string_max_length_exactly_with_marker(self) -> None:
         """
@@ -98,7 +105,8 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "testtesttest"
         result = shorten_string(original, 12, "...")
-        self.assertEqual(original, result)
+
+        assert original == result
 
     def test_shorten_string_longer_than_max_length_with_marker(self) -> None:
         """
@@ -109,9 +117,10 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "testtesttesttest"
         result = shorten_string(original, 10, "...")
-        self.assertEqual(10, len(result))
-        self.assertTrue(result.endswith("..."))
-        self.assertTrue(original.startswith(result[0:7]))
+
+        assert len(result) == 10
+        assert result.endswith("...")
+        assert original.startswith(result[0:7])
 
     def test_shorten_string_max_length_zero_with_marker(self) -> None:
         """
@@ -120,10 +129,11 @@ class StringUtiltiesTest(unittest.TestCase):
         """
         original = "test"
         result = shorten_string(original, 0, "....")
-        self.assertEqual("", result)
+
+        assert result == ""
 
     def test_shorten_string_max_length_negative(self) -> None:
         """Tests for an error case: The maximum length is negative."""
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError, match="maximum length must be non-negative"):
             shorten_string("test", -1)

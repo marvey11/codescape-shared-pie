@@ -4,10 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      # Exclude local workspace packages from external dependency updates
-      - dependency-name: "core"
-      - dependency-name: "runner"
 
     groups:
       dev-dependencies:

@@ -7,10 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-19
+
 ### Added
 
-- Add `atomic_move` for safe file moves across filesystem boundaries, with optional
-	hash verification.
+- Add `atomic_move` for safe file moves across filesystem boundaries, with optional hash verification ([02065bb](https://github.com/marvey11/codescape-shared-pie/commit/02065bb4f2037be3a9245c095105270b7ffec77e)).
 
 ## [0.1.1] - 2026-09-13
 

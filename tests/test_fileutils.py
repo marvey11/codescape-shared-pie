@@ -3,7 +3,66 @@ from unittest.mock import patch
 
 import pytest
 
-from codescape.util.fileutils import atomic_write_bytes
+from codescape.util.fileutils import atomic_move, atomic_write_bytes
+
+
+def test_atomic_move_copies_target_and_removes_source(tmp_path: Path) -> None:
+    source_file = tmp_path / "source.txt"
+    target_file = tmp_path / "nested" / "target.txt"
+    source_file.write_bytes(b"move me")
+
+    atomic_move(source_file, target_file)
+
+    assert target_file.read_bytes() == b"move me"
+    assert not source_file.exists()
+
+
+def test_atomic_move_verifies_matching_hash_before_removing_source(
+    tmp_path: Path,
+) -> None:
+    source_file = tmp_path / "source.txt"
+    target_file = tmp_path / "target.txt"
+    source_file.write_bytes(b"verified content")
+
+    atomic_move(source_file, target_file, verify_hash=True)
+
+    assert target_file.read_bytes() == b"verified content"
+    assert not source_file.exists()
+
+
+def test_atomic_move_keeps_source_when_hashes_do_not_match(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source_file = tmp_path / "source.txt"
+    target_file = tmp_path / "target.txt"
+    source_file.write_bytes(b"source content")
+    digest_results = iter((b"source", b"target"))
+
+    def fake_file_digest(path: Path, algorithm: str) -> bytes:
+        return next(digest_results)
+
+    monkeypatch.setattr("codescape.util.fileutils._file_digest", fake_file_digest)
+
+    with pytest.raises(ValueError, match="hashes do not match"):
+        atomic_move(source_file, target_file, verify_hash=True)
+
+    assert source_file.exists()
+
+
+def test_atomic_move_accepts_hash_algorithm(tmp_path: Path) -> None:
+    source_file = tmp_path / "source.txt"
+    target_file = tmp_path / "target.txt"
+    source_file.write_bytes(b"algorithm selection")
+
+    atomic_move(
+        source_file,
+        target_file,
+        verify_hash=True,
+        hash_algorithm="sha512",
+    )
+
+    assert not source_file.exists()
 
 
 def test_atomic_write_bytes_creates_file_and_content(tmp_path: Path) -> None:
